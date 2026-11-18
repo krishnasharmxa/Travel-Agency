@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bharat Yatra Holidays - Travel Agency</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo-container">
+            <img src="logo-transparent.png" alt="Logo" class="header-logo">
+            <div>
+                <h1>Bharat Yatra Holidays</h1>
+                <p>Har Ghar Vacation Yojna</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Bar to switch views -->
+    <nav class="navbar">
+        <button id="btn-customer" class="nav-btn active-tab" onclick="switchView('customer')">Customer View</button>
+        <button id="btn-admin" class="nav-btn" onclick="switchView('admin')">Agency Admin View</button>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="main-content">
+
+        <!-- ================= CUSTOMER VIEW ================= -->
+        <section id="customer-view">
+            
+            <!-- 1. Package Catalogue -->
+            <div class="box">
+                <h2>Holiday Packages</h2>
+                <div id="package-grid" class="package-grid">
+                    <!-- Populated by script.js -->
+                </div>
+            </div>
+
+            <!-- 2. Package Comparison -->
+            <div id="comparison-box" class="box" style="display: none;">
+                <h2>Compare Selected Packages</h2>
+                <table id="comparison-table" class="simple-table">
+                    <!-- Populated by script.js -->
+                </table>
+            </div>
+
+            <!-- 3. Package Detail Section -->
+            <div id="detail-box" class="box" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2>Package Details</h2>
+                    <button class="btn btn-orange" onclick="closeDetails()">Close</button>
+                </div>
+                <div id="detail-content" class="detail-view">
+                    <!-- Populated by script.js -->
+                </div>
+            </div>
+
+            <!-- 4. Passenger Booking Form -->
+            <div class="box" id="booking-box">
+                <h2>Book a Trip</h2>
+                <form id="booking-form" onsubmit="handleBooking(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Select Package:</label>
+                            <select id="book-pkg-select" required onchange="handlePackageChange()">
+                                <option value="">-- Choose Package --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Select Date:</label>
+                            <select id="book-date-select" required>
+                                <option value="">-- Choose Date --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Passenger Name:</label>
+                            <input type="text" id="passenger-name" placeholder="Enter Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address:</label>
+                            <input type="email" id="passenger-email" placeholder="Enter Email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>ID / Passport / Aadhaar Number:</label>
+                        <input type="text" id="passenger-id" placeholder="Enter ID Proof Number" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-orange">Book Now</button>
+                </form>
+            </div>
+
+            <!-- 5. Customer Booking History -->
+            <div class="box">
+                <h2>My Bookings</h2>
+                <table class="simple-table">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Destination</th>
+                            <th>Date</th>
+                            <th>Passenger</th>
+                            <th>ID Number</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customer-history-tbody">
+                        <!-- Populated by script.js -->
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+        <!-- ================= AGENCY ADMIN VIEW ================= -->
+        <section id="admin-view" style="display: none;">
+            
+            <!-- 1. Add Package Form -->
+            <div class="box">
+                <h2>Add New Travel Package</h2>
+                <form id="add-pkg-form" onsubmit="handleAddPackage(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Destination Name:</label>
+                            <input type="text" id="add-dest" placeholder="e.g. Manali, Himachal" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Price (₹ INR):</label>
+                            <input type="number" id="add-price" placeholder="e.g. 18000" min="1" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Duration (Days):</label>
+                            <input type="number" id="add-days" placeholder="e.g. 5" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Hotel Details:</label>
+                            <input type="text" id="add-hotel" placeholder="e.g. Snow Valley Resort (4★)" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Available Dates (Comma-separated):</label>
+                            <input type="text" id="add-dates" placeholder="e.g. 2026-06-10, 2026-07-15" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Image URL:</label>
+                            <input type="url" id="add-image" placeholder="Image web link (optional)">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Itinerary (Comma-separated steps):</label>
+                        <textarea id="add-itinerary" rows="2" placeholder="e.g. Day 1: Arrival, Day 2: Sightseeing, Day 3: Shopping & Departure" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-green">Add Package</button>
+                </form>
+            </div>
+
+            <!-- 2. Manage Bookings Table -->
+            <div class="box">
+                <h2>Manage Customer Bookings</h2>
+                <table class="simple-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Passenger</th>
+                            <th>Email</th>
+                            <th>ID Proof</th>
+                            <th>Destination</th>
+                            <th>Date</th>
+                            <th>Status Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-bookings-tbody">
+                        <!-- Populated by script.js -->
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 Bharat Yatra Holidays. Har Ghar Vacation Yojna.</p>
+    </footer>
+
+    <!-- Supabase JS Client & Environment Config -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="env.js"></script>
+    <!-- Main JavaScript File -->
+    <script src="script.js"></script>
+</body>
+</html>
